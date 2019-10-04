@@ -1,8 +1,15 @@
+require('dotenv').config()
 const express = require('express');
+const mongoose = require('mongoose');
 const routes = require('./routes');
 
 const port = 3000;
 const app = express();
+
+mongoose.connect(process.env.DBKEY, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+  });
 
 // ensina ao express a usar json
 app.use(express.json()); 
