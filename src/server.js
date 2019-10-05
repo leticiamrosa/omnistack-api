@@ -13,7 +13,7 @@ mongoose.connect(process.env.DBKEY, {
 });
 
 // ensina ao express a usar json
-server.use(cors());
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 
