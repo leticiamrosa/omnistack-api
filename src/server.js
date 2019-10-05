@@ -1,18 +1,20 @@
-require('dotenv').config()
-const express = require('express');
-const mongoose = require('mongoose');
-const routes = require('./routes');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const routes = require("./routes");
 
 const port = 3000;
 const app = express();
 
-mongoose.connect(process.env.DBKEY, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true,
-  });
+mongoose.connect(process.env.DBKEY, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 // ensina ao express a usar json
-app.use(express.json()); 
+server.use(cors());
+app.use(express.json());
 app.use(routes);
 
 /* 
@@ -66,8 +68,4 @@ app.use(routes);
 /* --- req.body --- */
 /* -> Acessar corpo da request  (para criacao e edicao) */
 
-
-
-
-
-app.listen(port)
+app.listen(port);
