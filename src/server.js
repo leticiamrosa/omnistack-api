@@ -68,4 +68,6 @@ app.use(routes);
 /* --- req.body --- */
 /* -> Acessar corpo da request  (para criacao e edicao) */
 
-app.listen(port);
+app.listen(process.env.PORT || port, () =>
+  console.log(`Server running ing localhost:${port}/`)
+);
