@@ -13,6 +13,10 @@ const routes = express.Router();
 const upload = multer(uploadConfig);
 
 // Routes
+routes.get("/", (req, res) => {
+  res.status(400).json({ status: "API no ar" });
+});
+
 routes.post("/sessions", SessionController.store);
 
 routes.get("/spots", SpotController.index);
