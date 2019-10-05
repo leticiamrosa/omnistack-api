@@ -3,21 +3,25 @@ const multer = require("multer");
 const uploadConfig = require("./config/upload");
 
 // Controllers
-const SessionController = require("./controllers/SessionController");
+const AuthController = require("./controllers/AuthController");
 const SpotController = require("./controllers/SpotController");
 const BookingController = require("./controllers/BookingController");
 const DashboardController = require("./controllers/DashboardController");
 
 // Express Router
 const routes = express.Router();
+const middleware = require("./middlewares/auth");
 const upload = multer(uploadConfig);
 
+routes.use(middleware);
 // Routes
 routes.get("/", (req, res) => {
   res.status(400).json({ status: "API no ar" });
 });
 
-routes.post("/sessions", SessionController.store);
+routes.post("/auth", AuthController.auth);
+routes.post("/users/create", AuthController.store);
+routes.post("/users/forgot_password", AuthController.update);
 
 routes.get("/spots", SpotController.index);
 routes.post("/spots", upload.single("thumbnail"), SpotController.store);

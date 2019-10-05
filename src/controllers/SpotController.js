@@ -3,14 +3,14 @@ const User = require("../models/User");
 
 module.exports = {
   async index(req, res) {
-    const { tech } = req.query;
-    const spots = await Spot.find({ techs: tech });
+    const { tag } = req.query;
+    const spots = await Spot.find({ tags: tag });
     return res.json(spots);
   },
 
   async store(req, res) {
     const { filename } = req.file;
-    const { company, techs, price } = req.body;
+    const { name, price, hour, address, description } = req.body;
     const { user_id } = req.headers;
 
     const user = await User.findById(user_id);
@@ -22,9 +22,12 @@ module.exports = {
     const spot = await Spot.create({
       user: user_id,
       thumbnail: filename,
-      company,
-      techs: techs.split(",").map(tech => tech.trim()),
-      price
+      name,
+      tags: techs.split(",").map(tech => tech.trim()),
+      price,
+      hour,
+      address,
+      description
     });
 
     return res.json(spot);

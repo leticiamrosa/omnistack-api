@@ -5,7 +5,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const routes = require("./routes");
 
-const port = 3000;
+const port = 3003;
 const app = express();
 
 mongoose.connect(process.env.DBKEY, {
