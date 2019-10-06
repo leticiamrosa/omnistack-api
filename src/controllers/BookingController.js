@@ -5,6 +5,7 @@ module.exports = {
     const { user_id } = req.headers;
     const { id } = req.params;
     const { data } = req.body;
+
     const booking = await Booking.create({
       user: user_id,
       spot: id,
