@@ -8,12 +8,14 @@ const SpotController = require("./controllers/SpotController");
 const BookingController = require("./controllers/BookingController");
 const DashboardController = require("./controllers/DashboardController");
 
+// routes.use(middleware);
+
 // Express Router
 const routes = express.Router();
 const middleware = require("./middlewares/auth");
 const upload = multer(uploadConfig);
 
-routes.use(middleware);
+// routes.use(middleware);
 // Routes
 routes.get("/", (req, res) => {
   res.status(400).json({ status: "API no ar" });
@@ -21,6 +23,7 @@ routes.get("/", (req, res) => {
 
 routes.post("/auth", AuthController.auth);
 routes.post("/users/create", AuthController.store);
+
 routes.post("/users/forgot_password", AuthController.update);
 
 routes.get("/spots", SpotController.index);

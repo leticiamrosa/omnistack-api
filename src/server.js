@@ -4,20 +4,41 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const routes = require("./routes");
+const socketio = require("socket.io");
+const http = require("http");
 
 const port = 3003;
+
 const app = express();
+const server = http.Server(app);
+const io = socketio(server);
 
 mongoose.connect(process.env.DBKEY, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
+const connectedUsers = {};
+
+io.on("connection", socket => {
+  console.log("Usuario conectado", socket.id);
+
+  const { user_id } = socket.handshake.query;
+  connectedUsers[user_id] = socket.id;
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  req.connectedUsers = connectedUsers;
+
+  return next();
+});
+
 // ensina ao express a usar json
 app.use(cors());
 app.use(express.json());
-app.use(routes);
 app.use("/files", express.static(path.resolve(__dirname, "..", "uploads")));
+app.use(routes);
 
 /* 
   @param 
@@ -70,6 +91,6 @@ app.use("/files", express.static(path.resolve(__dirname, "..", "uploads")));
 /* --- req.body --- */
 /* -> Acessar corpo da request  (para criacao e edicao) */
 
-app.listen(process.env.PORT || port, () =>
+server.listen(process.env.PORT || port, () =>
   console.log(`Server running ing localhost:${port}/`)
 );

@@ -10,10 +10,15 @@ module.exports = {
 
   async store(req, res) {
     const { filename } = req.file;
-    const { name, price, hour, address, description } = req.body;
+    const { name, price, hour, address, description, tags } = req.body;
     const { user_id } = req.headers;
 
+    var token = req.headers["x-access-token"];
     const user = await User.findById(user_id);
+
+    if (!token) {
+      return res.status(400).json({ error: "Token inválido " });
+    }
 
     if (!user) {
       return res.status(400).json({ error: "User does not exists " });
@@ -23,7 +28,8 @@ module.exports = {
       user: user_id,
       thumbnail: filename,
       name,
-      tags: techs.split(",").map(tech => tech.trim()),
+      tags: tags.split(",").map(tag => tag.trim()),
+      tags,
       price,
       hour,
       address,
